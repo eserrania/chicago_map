@@ -1,1 +1,1 @@
-{% include mapbox.html}
+{% include mapbox.html %}
