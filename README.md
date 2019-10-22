@@ -1,1 +1,1 @@
-# eserrania.github.io
+{% include mapbox.html}
