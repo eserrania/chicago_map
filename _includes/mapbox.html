@@ -18,8 +18,8 @@ body { margin:0; padding:0; }
 mapboxgl.accessToken = 'pk.eyJ1IjoiZWxpYXNzZXJyYW5pYSIsImEiOiJjazFzMXF0a24wN2s4M2hzMXJ5OHc2cW52In0.zjXeqhpsCwYxW92szmmccA';
 
 var bounds = [
-[-87.63, 41.77], // Southwest coordinates
-[-87.572205, 41.82]  // Northeast coordinates
+[-87.68, 41.75], // Southwest coordinates
+[-87.5, 41.84]  // Northeast coordinates
 ];
 
 var map = new mapboxgl.Map({
@@ -27,9 +27,9 @@ container: 'map', // container id
 style: 'mapbox://styles/eliasserrania/ck1s25gjj55021dqkdvkfpims', // stylesheet location
 center: [-87.59498, 41.79524], // starting position [lng, lat]
 zoom: 14, // starting zoom
-maxBounds: bounds,
-maxZoom: 17,
-minZoom: 11
+maxZoom: 16,
+minZoom: 13,
+maxBounds: bounds
 });
 
 </script>
