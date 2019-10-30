@@ -32,7 +32,7 @@ body { margin:0; padding:0; }
     line-height: 18px;
     height: 150px;
     margin-bottom: 40px;
-    width: 100px;
+    width: 70px;
 }
 
 .map-overlay {
@@ -68,6 +68,13 @@ body { margin:0; padding:0; }
 	background: linear-gradient(rgba(4, 185, 4,0.8), rgba(250, 227, 20,0.8), rgba(192, 7, 7,0.8));
 }
 
+.row {
+	padding-bottom: 29px;
+    height: 12px;
+    width: 100%;
+    margin-left: 25px;
+}
+
 </style>
 </head>
 <body>
@@ -80,11 +87,20 @@ body { margin:0; padding:0; }
 
 <div class="leg-overlay" id="legend">
 	<div id="legend-colors">
-	</div>
-
+		<div class="row labels">
+        	<div class="label">3.02</div>
+    	</div>
+    	<div class="row labels">
+        	<div class="label">2.41</div>
+    	</div>		
+    	<div class="row labels">
+        	<div class="label">1.79</div>
+    	</div>		
+    	<div class="row labels">
+        	<div class="label">1.17</div>
+    	</div>
+    </div>
 </div>
-
-
 
 <script>
 mapboxgl.accessToken = 'pk.eyJ1IjoiZWxpYXNzZXJyYW5pYSIsImEiOiJjazFzMXF0a24wN2s4M2hzMXJ5OHc2cW52In0.zjXeqhpsCwYxW92szmmccA';
