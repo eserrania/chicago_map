@@ -2,100 +2,35 @@
 <html>
 <head>
 <meta charset='utf-8' />
-<title>Hyde Park Restoration Scores</title>
+<title>Hyde Park Restorative Scores</title>
 <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.js'></script>
-<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css' rel='stylesheet' />
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.css' rel='stylesheet' />
 <style>
 body { margin:0; padding:0; }
 #map { position:absolute; top:0; bottom:0; width:100%; }
-
-#features {
-    top: 0;
-    height: 70px;
-    margin-top: 20px;
-    margin-left: 20px
-    width: 400px;
-}
-
-.legend-key {
-    display: inline-block;
-    border-radius: 20%;
-    width: 10px;
-    height: 10px;
-    margin-right: 5px;
-}
-
-#legend {
-    padding: 10px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.10);
-    line-height: 18px;
-    height: 175px;
-    margin-bottom: 40px;
-    width: 160px;
-}
-
-.map-overlay {
-    position: absolute;
-    bottom: 0;
-    right: 30%;
-    background: rgba(255, 255, 255,0.3);
-    margin-right: 20px;
-    color: rgba(96, 96, 96,1);
-    font-family: Arial, sans-serif;
-    overflow: auto;
-    border-radius: 3px;
-}
-
-.leg-overlay {
-    position: absolute;
-    bottom: 0;
-    right: 5%;
-    background: rgba(255, 255, 255,0.3);
-    margin-right: 20px;
-    color: rgba(96, 96, 96,1);
-    font-family: Arial, sans-serif;
-    overflow: auto;
-    border-radius: 3px;
-}
-
-#legend-colors {
-	display: inline-block;
-	height: 140px;
-	width: 15px;
-    margin-left: 5px;
-    margin-top: 5px;
-	background: linear-gradient(rgba(4, 185, 4,0.8), rgba(250, 227, 20,0.8), rgba(192, 7, 7,0.8));
-}
-
-.row {
-	padding-bottom: 108px;
-    height: 12px;
-    width: 120px;
-    margin-left: 27px;
-}
-
 </style>
 </head>
 <body>
  
+<style>
+#menu {
+position: absolute;
+background: #fff;
+padding: 10px;
+font-family: 'Open Sans', sans-serif;
+}
+</style>
+ 
 <div id='map'></div>
-
-<div class="map-overlay" id="features">
-	<h2>Hyde Park Blocks Restorative Quality Scores</h2>
+<div id='menu'>
+<input id='ck1s25gjj55021dqkdvkfpims' type='radio' name='rtoggle' value='restorative' checked='checked'>
+<label for='restorative'>Restorative score</label>
+<input id='ck2kopqy64pda1cox9brop07q' type='radio' name='rtoggle' value='canopy'>
+<label for='canopy'>Canopy score</label>
+<input id='ck2kow4li4z7z1cjyietxy98o' type='radio' name='rtoggle' value='crime'>
+<label for='crime'>Crime score</label>
 </div>
-
-<div class="leg-overlay" id="legend">
-	<div id="legend-colors">
-		<div class="row labels">
-        	<div class="label">Most Restorative</div>
-    	</div>
-    	<div class="row labels">
-        	<div class="label">Least Restorative</div>
-    	</div>
-    </div>
-</div>
-
 <script>
 mapboxgl.accessToken = 'pk.eyJ1IjoiZWxpYXNzZXJyYW5pYSIsImEiOiJjazFzMXF0a24wN2s4M2hzMXJ5OHc2cW52In0.zjXeqhpsCwYxW92szmmccA';
 
@@ -105,18 +40,27 @@ var bounds = [
 ];
 
 var map = new mapboxgl.Map({
-container: 'map', // container id
-style: 'mapbox://styles/eliasserrania/ck1s25gjj55021dqkdvkfpims', // stylesheet location
-center: [-87.59498, 41.79524], // starting position [lng, lat]
-zoom: 14, // starting zoom
+container: 'map',
+style: 'mapbox://styles/eliasserrania/ck1s25gjj55021dqkdvkfpims',
+center: [-87.59498, 41.79524],
+zoom: 14,
 maxZoom: 16,
 minZoom: 13,
 maxBounds: bounds
 });
-
+ 
+var layerList = document.getElementById('menu');
+var inputs = layerList.getElementsByTagName('input');
+ 
+function switchLayer(layer) {
+var layerId = layer.target.id;
+map.setStyle('mapbox://styles/eliasserrania/' + layerId);
+}
+ 
+for (var i = 0; i < inputs.length; i++) {
+inputs[i].onclick = switchLayer;
+}
 </script>
  
 </body>
 </html>
-
-
