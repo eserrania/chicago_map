@@ -70,6 +70,15 @@ font-family: 'Open Sans', sans-serif;
     width: 300px;
 }
 
+#sound-legend {
+    padding: 10px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.30);
+    line-height: 18px;
+    height: 60px;
+    margin-bottom: 40px;
+    width: 300px;
+}
+
 .leg-overlay {
     position: absolute;
     bottom: 0;
@@ -100,6 +109,12 @@ font-family: 'Open Sans', sans-serif;
 	background: linear-gradient(to left, rgba(250, 227, 20,0.8), rgba(234, 140, 26,0.8), rgba(211, 3, 3,0.8));
 }
 
+#sound-colors {
+    margin-bottom: 5px;
+    height: 20px;
+	background: linear-gradient(to left, rgba(29, 150, 237,0.8), rgba(17, 141, 48,0.8), rgba(242, 231, 7,0.8));
+}
+
 .row {
     height: 12px;
     width: 100%;
@@ -128,6 +143,8 @@ font-family: 'Open Sans', sans-serif;
 <label for='canopy'>Canopy score</label>
 <input id='ck2kow4li4z7z1cjyietxy98o' type='radio' name='rtoggle' value='crime'>
 <label for='crime'>Crime score</label>
+<input id='ck2zg8h2b01891cum823yqhyv' type='radio' name='rtoggle' value='sound'>
+<label for='sound'>Sound score</label>
 </div>
 
 <div class="leg-overlay" id="restorative-legend">
@@ -151,6 +168,14 @@ font-family: 'Open Sans', sans-serif;
 	<div class="row labels">
 	<div class="label">More Crime</div>
 	<div class="label">Less Crime</div>
+    </div>
+</div>
+
+<div class="leg-overlay" id="sound-legend" style="display: none;">
+	<div class="row" id="sound-colors"></div>
+	<div class="row labels">
+	<div class="label">More Noisy</div>
+	<div class="label">Less Noisy</div>
     </div>
 </div>
 
@@ -178,6 +203,7 @@ var inputs = layerList.getElementsByTagName('input');
 var restLegend = document.getElementById('restorative-legend');
 var canopyLegend = document.getElementById('canopy-legend');
 var crimeLegend = document.getElementById('crime-legend');
+var soundLegend = document.getElementById('sound-legend');
 
 function switchLayer(layer) {
 var layerId = layer.target.id;
@@ -186,16 +212,25 @@ if (layerId == 'ck2kopqy64pda1cox9brop07q') {
 canopyLegend.style.display = 'block'
 restLegend.style.display = 'none'
 crimeLegend.style.display = 'none'
+soundLegend.style.display = 'none'
 
 } else if (layerId == 'ck2kow4li4z7z1cjyietxy98o') {
 canopyLegend.style.display = 'none'
 restLegend.style.display = 'none'
 crimeLegend.style.display = 'block'
+soundLegend.style.display = 'none'
+
+} else if (layerId == 'ck2zg8h2b01891cum823yqhyv') {
+canopyLegend.style.display = 'none'
+restLegend.style.display = 'none'	
+crimeLegend.style.display = 'none'
+soundLegend.style.display = 'block'
 
 } else {
 canopyLegend.style.display = 'none'
 restLegend.style.display = 'block'	
 crimeLegend.style.display = 'none'
+soundLegend.style.display = 'none'
 
 }
 }
