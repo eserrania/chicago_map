@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Chicago Restorative Scores</title>
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js"></script>
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+      }
+
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+      }
+
+      .title {
+        position: fixed; /* Fix position */
+        display: flex; /* Use flexbox display options */
+        left: 25%; /* Distance from the left side of the screen */
+        top: 3%; /* Distance from the top of the screen */
+        height: 50px; /* Height of box containing title */
+        background: rgba(
+          255,
+          255,
+          255,
+          0.5
+        ); /* Background of title box, last number is the opacity level */
+        padding: 10px; /* Distance of text to the border of the box */
+        border-radius: 10px; /* Round corners */
+        align-items: center; /* Center text in box */
+      }
+
+      .legend {
+        position: fixed; /* Fix position */
+        display: flex; /* Use flexbox display options */
+        flex-direction: column; /* Align items vertically*/
+        right: 10%; /* Distance from the right side of the screen */
+        bottom: 10%; /* Distance from the bottom of the screen */
+        height: 70px; /* Height of box containing legend */
+        background: rgba(
+          255,
+          255,
+          255,
+          0.5
+        ); /* Background of legend box, last number is the opacity level */
+        padding: 10px; /* Distance of text to the border of the box */
+        border-radius: 10px; /* Round corners */
+        justify-content: space-evenly; /* Space contents evenly vertically */
+      }
+
+      .restorative-color {
+        height: 20px;
+        width: 300px;
+        background: linear-gradient(
+          to left,
+          #c00707,
+          #fbe523,
+          #04b904
+        ); /* Creates the color gradient representing the scores */
+      }
+
+      .canopy-color {
+        height: 20px;
+        width: 300px;
+        background: linear-gradient(
+          to left,
+          #f6eb23,
+          #b0a50c,
+          #0abe04
+        ); /* Creates the color gradient representing the scores */
+      }
+
+      .crime-color {
+        height: 20px;
+        width: 300px;
+        background: linear-gradient(
+          to left,
+          #6fc20f,
+          #fae314,
+          #c00707
+        ); /* Creates the color gradient representing the scores */
+      }
+
+      .sound-color {
+        height: 20px;
+        width: 300px;
+        background: linear-gradient(
+          to left,
+          #f2e707,
+          #118d30,
+          #1d96ed
+        ); /* Creates the color gradient representing the scores */
+      }
+
+      .legend-text {
+        display: flex; /* Use flexbox display options */
+        justify-content: space-between; /* Maximize space between text */
+        font-size: medium;
+      }
+
+      #menu {
+        position: fixed;
+        top: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.5);
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <div class="title">
+      <h2>Chicago Blocks Restorative Quality Scores</h2>
+    </div>
+
+    <div class="legend" id="restorative-legend">
+      <div class="restorative-color"></div>
+      <div class="legend-text">
+        <span>Most restorative</span>
+        <span>Least restorative</span>
+      </div>
+    </div>
+
+    <div class="legend" id="canopy-legend" style="display: none;">
+      <div class="canopy-color"></div>
+      <div class="legend-text">
+        <span>More greenspace</span>
+        <span>Less greenspace</span>
+      </div>
+    </div>
+
+    <div class="legend" id="crime-legend" style="display: none;">
+      <div class="crime-color"></div>
+      <div class="legend-text">
+        <span>More crime</span>
+        <span>Less crime</span>
+      </div>
+    </div>
+
+    <div class="legend" id="sound-legend" style="display: none;">
+      <div class="sound-color"></div>
+      <div class="legend-text">
+        <span>Less noisy</span>
+        <span>Noisier</span>
+      </div>
+    </div>
+
+    <div id="menu">
+      <input
+        id="ck84z3gkd0dqu1ipm26aub0t3"
+        type="radio"
+        name="rtoggle"
+        value="restorative"
+        checked="checked"
+      />
+      <label for="restorative">Restorative score</label>
+      <input
+        id="ck3cecmxw15qa1cmklbb9mpzw"
+        type="radio"
+        name="rtoggle"
+        value="canopy"
+      />
+      <label for="canopy">Canopy score</label>
+      <input
+        id="ck3cel8lz2z7v1ct4wq4pxclz"
+        type="radio"
+        name="rtoggle"
+        value="crime"
+      />
+      <label for="crime">Crime score</label>
+      <input
+        id="ck3cf63wc2ykp1clokmjse9um"
+        type="radio"
+        name="rtoggle"
+        value="sound"
+      />
+      <label for="sound">Sound score</label>
+    </div>
+
+    <script>
+      mapboxgl.accessToken =
+        "pk.eyJ1IjoiZWxpYXNzZXJyYW5pYSIsImEiOiJjazFzMXF0a24wN2s4M2hzMXJ5OHc2cW52In0.zjXeqhpsCwYxW92szmmccA";
+      var bounds = [
+        [-87.8744, 41.61279], // Southwest coordinates
+        [-87.4372, 42.0589] // Northeast coordinates
+      ];
+      var map = new mapboxgl.Map({
+        container: "map", // container id
+        style: "mapbox://styles/eliasserrania/ck84z3gkd0dqu1ipm26aub0t3", // stylesheet location
+        center: [-87.6483, 41.86925], // starting position [lng, lat]
+        zoom: 13, // starting zoom
+        maxZoom: 16, // max zoom allowed
+        minZoom: 11, // min zoom allowed
+        maxBounds: bounds // set bounds for the map
+      });
+
+      // Get elements that we are going to manipulate
+      var layerList = document.getElementById("menu");
+      var inputs = layerList.getElementsByTagName("input");
+      var restLegend = document.getElementById("restorative-legend");
+      var canopyLegend = document.getElementById("canopy-legend");
+      var crimeLegend = document.getElementById("crime-legend");
+      var soundLegend = document.getElementById("sound-legend");
+
+      // Define function to switch layers
+      function switchLayer(layer) {
+        // Set new style
+        var layerId = layer.target.id;
+        map.setStyle("mapbox://styles/eliasserrania/" + layerId);
+
+        // Hide all legends
+        restLegend.style.display = "none";
+        crimeLegend.style.display = "none";
+        soundLegend.style.display = "none";
+        canopyLegend.style.display = "none";
+
+        // Show only the correct legend
+        if (layerId == "ck3cecmxw15qa1cmklbb9mpzw") {
+          canopyLegend.style.display = "flex";
+        } else if (layerId == "ck3cel8lz2z7v1ct4wq4pxclz") {
+          crimeLegend.style.display = "flex";
+        } else if (layerId == "ck3cf63wc2ykp1clokmjse9um") {
+          soundLegend.style.display = "flex";
+        } else {
+          restLegend.style.display = "flex";
+        }
+      }
+
+      // Call our funtion when clicking on any element of the menu
+      for (var i = 0; i < inputs.length; i++) {
+        inputs[i].onclick = switchLayer;
+      }
+    </script>
+  </body>
+</html>
